@@ -1,6 +1,7 @@
 package zj.test.controller;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,11 +31,18 @@ public class TestHelloController extends SpringMVCTestBase {
                 .andDo(new MyHandler()).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
+    @Test
+    public void testCustom() throws Exception {
+        mockMvc.perform(get("/zj/hello/custom").accept(MediaType.APPLICATION_JSON_UTF8_VALUE).contentType(MediaType.APPLICATION_JSON)
+                .content(""))
+                .andDo(print()).andExpect(status().isOk()).andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+    }
+
 
     class MyHandler implements ResultHandler {
         @Override
         public void handle(MvcResult result) throws Exception {
-            assertEquals("hello",result.getResponse().getContentAsString());
+            assertEquals("hello", result.getResponse().getContentAsString());
         }
     }
 
